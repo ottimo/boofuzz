@@ -2,6 +2,7 @@
 from .base_primitive import BasePrimitive
 from .bit_field import BitField
 from .byte import Byte
+from .fuzz_list import FuzzList
 from .delim import Delim
 from .dword import DWord
 from .group import Group
