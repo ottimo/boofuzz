@@ -24,7 +24,7 @@ from .ifuzz_logger_backend import IFuzzLoggerBackend
 from .itarget_connection import ITargetConnection
 from .primitives import (BasePrimitive, Delim, Group,
                          RandomData, Static, String, BitField,
-                         Byte, Word, DWord, QWord, FuzzList)
+                         Byte, Word, DWord, QWord, FuzzList, Counter)
 from .serial_connection import SerialConnection
 from .sessions import Session, Target
 from .sex import SullyRuntimeError, SizerNotUtilizedError, MustImplementException
@@ -513,6 +513,9 @@ def s_fuzz_list(value, size=-1, padding="\x00", encoding="ascii", fuzzable=True,
     s = primitives.FuzzList(value, size, padding, encoding, fuzzable, max_len, name, filename)
     blocks.CURRENT.push(s)
 
+def s_counter(value, size=-1):
+    s = primitives.Counter(value, size)
+    blocks.CURRENT.push(s)
 
 # noinspection PyTypeChecker
 def s_bit_field(value, width, endian=LITTLE_ENDIAN, output_format="binary", signed=False, full_range=False,
