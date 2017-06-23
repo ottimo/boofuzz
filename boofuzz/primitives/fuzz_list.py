@@ -115,4 +115,4 @@ class FuzzList(BasePrimitive):
             # If we can't decode the string, just treat it like a plain byte string
             _rendered = value
 
-        return _rendered
+        return _rendered.rstrip()
