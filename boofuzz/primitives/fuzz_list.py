@@ -9,10 +9,8 @@ class FuzzList(BasePrimitive):
 
     def __init__(self, value, size=-1, padding="\x00", encoding="ascii", fuzzable=True, max_len=0, name=None, filename=None):
         """
-        Primitive that cycles through a library of "bad" strings. The class variable 'fuzz_library' contains a list of
-        smart fuzz values global across all instances. The 'this_library' variable contains fuzz values specific to
-        the instantiated primitive. This allows us to avoid copying the near ~70MB fuzz_library data structure across
-        each instantiated primitive.
+        Primitive that cycles through a list of "bad" values from a file. The primitive take filename and open the file to read
+        the values to use in fuzzing process.
 
         @type  value:    str
         @param value:    Default string value
@@ -41,11 +39,6 @@ class FuzzList(BasePrimitive):
         self._filename = filename
         self._file_handle = open(self._filename,"r")
         self.this_library = self._file_handle.readlines()
-        if not self._fuzz_library:
-            self._fuzz_library = \
-                [
-                ]
-
 
         # TODO: Make this more clear
         if max_len > 0:
@@ -53,9 +46,6 @@ class FuzzList(BasePrimitive):
             if any(len(s) > max_len for s in self.this_library):
                 # Pull out only the ones that aren't
                 self.this_library = list(set([s[:max_len] for s in self.this_library]))
-            # Same thing here
-            if any(len(s) > max_len for s in self._fuzz_library):
-                self._fuzz_library = list(set([s[:max_len] for s in self._fuzz_library]))
 
     @property
     def name(self):
@@ -64,7 +54,7 @@ class FuzzList(BasePrimitive):
     
     def mutate(self):
         """
-        Mutate the primitive by stepping through the fuzz library extended with the "this" library, return False on
+        Mutate the primitive by stepping through the "this" library, return False on
         completion.
 
         @rtype:  bool
@@ -83,7 +73,7 @@ class FuzzList(BasePrimitive):
                 return False
 
             # update the current value from the fuzz library.
-            self._value = (self._fuzz_library + self.this_library)[self._mutant_index]
+            self._value = (self.this_library)[self._mutant_index]
 
             # increment the mutation count.
             self._mutant_index += 1
@@ -111,7 +101,7 @@ class FuzzList(BasePrimitive):
         @rtype:  int
         @return: Number of mutated forms this primitive can take
         """
-        return len(self._fuzz_library) + len(self.this_library)
+        return len(self.this_library)
 
     def _render(self, value):
         """Render string value, properly encoded.
