@@ -8,9 +8,9 @@ import csv
 from . import helpers
 from . import ifuzz_logger_backend
 
-from IPython import embed
+# from IPython import embed
 
-init()
+# init()
 
 def hex_to_hexstr(input_bytes):
     """
