@@ -1,4 +1,5 @@
 import random
+import glob
 
 from .base_primitive import BasePrimitive
 
@@ -26,6 +27,8 @@ class FuzzList(BasePrimitive):
         @param max_len:  (Optional, def=0) Maximum string length
         @type  name:     str
         @param name:     (Optional, def=None) Specifying a name gives you direct access to a primitive
+        @type  filename: str
+        @param filename: Filename pattern to load all fuzz value
         """
 
         super(FuzzList, self).__init__()
@@ -37,8 +40,12 @@ class FuzzList(BasePrimitive):
         self._fuzzable = fuzzable
         self._name = name
         self._filename = filename
-        self._file_handle = open(self._filename,"r")
-        self.this_library = self._file_handle.readlines()
+        self.this_library = []
+        list_of_files = glob.glob(self._filename)
+        for fname in list_of_files:
+            _file_handle = open(self._filename,"r")
+            self.this_library.append(_file_handle.readlines())
+            _file_handle.close()
 
         # TODO: Make this more clear
         if max_len > 0:
