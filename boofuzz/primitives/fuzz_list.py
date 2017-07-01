@@ -43,7 +43,7 @@ class FuzzList(BasePrimitive):
         self.this_library = []
         list_of_files = glob.glob(self._filename)
         for fname in list_of_files:
-            _file_handle = open(self._filename,"r")
+            _file_handle = open(fname,"r")
             self.this_library.append(_file_handle.readlines())
             _file_handle.close()
 
