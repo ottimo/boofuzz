@@ -3,7 +3,7 @@ Upcoming
 Features
 --------
 -  `s_size` is now fuzzable by default.
--  Add new s_fuzz_list primitive to read fuzz value from a file
+-  Add new s_fuzz_list primitive to read fuzz value from files.
 
 Fixes
 -----

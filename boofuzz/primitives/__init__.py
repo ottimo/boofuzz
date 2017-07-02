@@ -6,6 +6,7 @@ from .fuzz_list import FuzzList
 from .counter import Counter
 from .delim import Delim
 from .dword import DWord
+from .from_file import FromFile
 from .group import Group
 from .qword import QWord
 from .random_data import RandomData

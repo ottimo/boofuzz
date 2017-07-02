@@ -24,7 +24,7 @@ from .ifuzz_logger_backend import IFuzzLoggerBackend
 from .itarget_connection import ITargetConnection
 from .primitives import (BasePrimitive, Delim, Group,
                          RandomData, Static, String, BitField,
-                         Byte, Word, DWord, QWord, FuzzList, Counter)
+                         Byte, Word, DWord, QWord, FromFile)
 from .serial_connection import SerialConnection
 from .sessions import Session, Target
 from .sex import SullyRuntimeError, SizerNotUtilizedError, MustImplementException
@@ -488,16 +488,12 @@ def s_string(value, size=-1, padding="\x00", encoding="ascii", fuzzable=True, ma
     s = primitives.String(value, size, padding, encoding, fuzzable, max_len, name)
     blocks.CURRENT.push(s)
 
-def s_fuzz_list(value, size=-1, padding="\x00", encoding="ascii", fuzzable=True, max_len=0, name=None, filename=None):
+def s_from_file(value, encoding="ascii", fuzzable=True, max_len=0, name=None, filename=None):
     """
-    Push a string onto the current block stack.
+    Push a value from file onto the current block stack.
 
     @type  value:    str
     @param value:    Default string value
-    @type  size:     int
-    @param size:     (Optional, def=-1) Static size of this field, leave -1 for dynamic.
-    @type  padding:  Character
-    @param padding:  (Optional, def="\\x00") Value to use as padding to fill static field size.
     @type  encoding: str
     @param encoding: (Optonal, def="ascii") String encoding, ex: utf_16_le for Microsoft Unicode.
     @type  fuzzable: bool
@@ -510,11 +506,7 @@ def s_fuzz_list(value, size=-1, padding="\x00", encoding="ascii", fuzzable=True,
     @param filename: (Mandatory) Specify filename where to read fuzz list
     """
 
-    s = primitives.FuzzList(value, size, padding, encoding, fuzzable, max_len, name, filename)
-    blocks.CURRENT.push(s)
-
-def s_counter(value, size=-1):
-    s = primitives.Counter(value, size)
+    s = primitives.FromFile(value, encoding, fuzzable, max_len, name, filename)
     blocks.CURRENT.push(s)
 
 # noinspection PyTypeChecker
