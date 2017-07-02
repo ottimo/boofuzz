@@ -55,13 +55,13 @@ class FuzzLoggerCsv(ifuzz_logger_backend.IFuzzLoggerBackend):
         self._csv_handle = csv.writer(self._file_handle)
 
     def open_test_step(self, description):
-        self._print_log_msg([description, "", "", ""])
+        self._print_log_msg(["open step", "", "", description])
 
     def log_check(self, description):
-        self._print_log_msg([description, "", "", ""])
+        self._print_log_msg(["check", "", "", description])
 
     def log_error(self, description):
-        self._print_log_msg([description, "", "", ""])
+        self._print_log_msg(["error", "", "", description])
 
     def log_recv(self, data):
         self._print_log_msg(["recv",len(data), self._format_raw_bytes(data),data])
@@ -70,16 +70,16 @@ class FuzzLoggerCsv(ifuzz_logger_backend.IFuzzLoggerBackend):
         self._print_log_msg(["send",len(data), self._format_raw_bytes(data),data])
 
     def log_info(self, description):
-        self._print_log_msg([description, "", "", ""])
+        self._print_log_msg(["info", "", "", description])
 
     def open_test_case(self, test_case_id):
-        self._print_log_msg(["Test case "+str(test_case_id), "", "", ""])
+        self._print_log_msg(["open test case", "", "", "Test case "+str(test_case_id)])
 
     def log_fail(self, description=""):
-        self._print_log_msg([description, "", "", ""])
+        self._print_log_msg(["fail", "", "", description])
 
     def log_pass(self, description=""):
-        self._print_log_msg([description, "", "", ""])
+        self._print_log_msg(["pass", "", "", description])
 
     def _print_log_msg(self, msg, indent_level=0):
         time_stamp = get_time_stamp()
